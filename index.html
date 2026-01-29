@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Center AI - Post-Call Quality Assurance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Title and Conclusion slides - Red gradient */
+        .slide-title, .slide-conclusion {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #7f1d1d 100%);
+            color: white;
+            text-align: center;
+        }
+
+        /* Content slides - Light background */
+        .slide-content {
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: white;
+            padding: 12px;
+            margin: 0 auto 2rem auto;
+            display: block;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #dc2626;
+        }
+
+        .slide-title h2, .slide-conclusion h2 {
+            color: white;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #991b1b;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.85;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid #dc2626;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .problem-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-text {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-text {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .process-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-text {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .capability-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #dc2626;
+        }
+
+        .capability-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .capability-text {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .tech-category {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #dc2626;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-list {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .timeline {
+            margin: 2rem 0;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #dc2626;
+        }
+
+        .timeline-week {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-text {
+            color: #64748b;
+        }
+
+        .pipeline-stages {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stage-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-top: 3px solid #dc2626;
+        }
+
+        .stage-number {
+            width: 40px;
+            height: 40px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .stage-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-text {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .cta-text {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: white;
+            color: #dc2626;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .checkmarks {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+
+        .checkmark {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .company-info {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .problem-grid, .features-grid, .capabilities-grid { 
+                grid-template-columns: 1fr; 
+            }
+            .pipeline-stages { grid-template-columns: 1fr; }
+            .process-steps { flex-direction: column; }
+            .process-step:not(:last-child)::after { 
+                content: '↓'; 
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -2rem;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title -->
+    <div class="slide slide-title">
+        <div class="container">
+            <img src="./PGAGI_LOGO.png" alt="PG-AGI Logo" class="logo">
+            <div class="badge">✓ AI-Powered Quality Assurance</div>
+            <h1>CALL CENTER AI QA</h1>
+            <p class="subtitle">Post-Call Recording Analysis & Script Compliance System</p>
+            <p class="tagline">Automate quality assurance with AI-powered transcription, speaker diarization, and objective script compliance scoring</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Call Coverage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">AI</div>
+                    <div class="stat-label">Powered Analysis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3 Weeks</div>
+                    <div class="stat-label">Delivery Timeline</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>The Challenge</h2>
+            <p class="tagline">Manual call quality assurance is time-consuming, inconsistent, and scales poorly</p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <div class="problem-title">Manual Review Bottleneck</div>
+                    <div class="problem-text">Human QA teams can only review 5-10% of calls, leaving the majority unmonitored and losing critical coaching opportunities</div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📊</div>
+                    <div class="problem-title">Inconsistent Scoring</div>
+                    <div class="problem-text">Subjective evaluations lead to inconsistent feedback across reps and managers, making performance metrics unreliable and unfair</div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🔍</div>
+                    <div class="problem-title">No Script Compliance Tracking</div>
+                    <div class="problem-text">Without automated tools, identifying whether reps follow mandatory scripts or handle objections correctly is nearly impossible at scale</div>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📈</div>
+                    <div class="problem-title">Delayed Insights</div>
+                    <div class="problem-text">Manual processes take days or weeks to generate reports, preventing real-time coaching and corrective action when it matters most</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Solution Overview -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>Meet Call Center AI QA</h2>
+            <p class="tagline">Automated post-call analysis with objective, explainable script compliance scoring</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎙️</div>
+                    <div class="feature-title">Advanced Transcription</div>
+                    <div class="feature-text">High-accuracy Speech-to-Text with speaker diarization automatically separates sales rep and customer speech with precise timestamps</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-title">Script Compliance Analysis</div>
+                    <div class="feature-text">NLP-based semantic matching validates mandatory phrases, calculates script adherence percentages, and identifies missing critical elements</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-title">Objection Handling Evaluation</div>
+                    <div class="feature-text">Detects customer objections and scores rep responses against approved frameworks—price, timing, interest objections analyzed automatically</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title">QA Dashboard & Reporting</div>
+                    <div class="feature-text">Lightweight dashboard with filtering by date and rep, drill-down to individual calls, transcript view, and transparent scoring breakdowns</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: How It Works -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>How It Works</h2>
+            <p class="tagline">Modular pipeline from call ingestion to explainable scoring</p>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Ingest</div>
+                    <div class="step-text">Call recordings and metadata received via API/webhook. Orchestration layer manages processing states.</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Transcribe</div>
+                    <div class="step-text">Speech-to-Text with speaker diarization separates rep vs customer. Timestamped transcripts stored in MongoDB.</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Analyze</div>
+                    <div class="step-text">NLP semantic matching validates mandatory lines. Script adherence calculated. Objections detected and evaluated.</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Score</div>
+                    <div class="step-text">Rule-based scoring aggregates compliance results. All scores fully traceable to transcript evidence.</div>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Report</div>
+                    <div class="step-text">Dashboard displays metrics, filters by date/rep, allows drill-down with transcript and scoring breakdowns.</div>
+                </div>
+            </div>
+            <div style="background: white; padding: 2rem; border-radius: 12px; margin-top: 2rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <h3>🎯 Deterministic & Explainable</h3>
+                <p style="color: #64748b;">Every score is rule-driven, auditable, and linked to specific transcript snippets—no black-box AI, only transparent compliance validation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Core Capabilities -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>Core Capabilities</h2>
+            <p class="tagline">Production-grade features for scalable, objective QA</p>
+            <div class="capabilities-grid">
+                <div class="capability-card">
+                    <div class="capability-title">🎤 Speaker-Aware Transcription</div>
+                    <div class="capability-text">Google/OpenAI Speech-to-Text with diarization automatically identifies who said what. Speaker-separated transcripts enable accurate rep-vs-customer compliance checks without manual tagging.</div>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-title">✅ Mandatory Line Detection</div>
+                    <div class="capability-text">Semantic NLP matching (using SBERT) validates required phrases with tolerance for minor wording variations. Pass/fail results linked to exact transcript locations for audit trails.</div>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-title">📈 Script Adherence Scoring</div>
+                    <div class="capability-text">Rule-based percentage calculation measures how thoroughly reps follow predefined scripts. Configurable thresholds for pass/fail, with explanations showing covered and missing sections.</div>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-title">💡 Objection Framework Evaluation</div>
+                    <div class="capability-text">Detects customer objections (price, timing, interest) and evaluates rep responses against approved handling strategies. Scores objection handling quality with evidence from conversation flow.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: System Architecture -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>Modular System Architecture</h2>
+            <p class="tagline">Pipeline-driven design ensuring scalability and explainability</p>
+            <div class="pipeline-stages">
+                <div class="stage-card">
+                    <div class="stage-number">1</div>
+                    <div class="stage-title">Call Ingestion</div>
+                    <div class="stage-text">API/webhook receives recordings and metadata with lifecycle tracking</div>
+                </div>
+                <div class="stage-card">
+                    <div class="stage-number">2</div>
+                    <div class="stage-title">Transcription</div>
+                    <div class="stage-text">STT with speaker diarization and timestamp generation</div>
+                </div>
+                <div class="stage-card">
+                    <div class="stage-number">3</div>
+                    <div class="stage-title">Structuring</div>
+                    <div class="stage-text">Segment conversations, separate rep/customer speech</div>
+                </div>
+                <div class="stage-card">
+                    <div class="stage-number">4</div>
+                    <div class="stage-title">Compliance Check</div>
+                    <div class="stage-text">Validate mandatory lines and calculate script adherence</div>
+                </div>
+                <div class="stage-card">
+                    <div class="stage-number">5</div>
+                    <div class="stage-title">Objection Analysis</div>
+                    <div class="stage-text">Detect objections and score rep responses</div>
+                </div>
+                <div class="stage-card">
+                    <div class="stage-number">6</div>
+                    <div class="stage-title">Scoring & Storage</div>
+                    <div class="stage-text">Aggregate results, store in MongoDB with full traceability</div>
+                </div>
+            </div>
+            <div class="capabilities-grid" style="margin-top: 2rem;">
+                <div class="capability-card">
+                    <div class="capability-title">🗄️ MongoDB Data Layer</div>
+                    <div class="capability-text">Flexible NoSQL storage for call metadata, speaker-separated transcripts, compliance results, objection events, and aggregated QA metrics—optimized for transcript-heavy data and complex queries</div>
+                </div>
+                <div class="capability-card">
+                    <div class="capability-title">📊 QA Dashboard</div>
+                    <div class="capability-text">Next.js dashboard with filtering (date, rep, customer name), call-level drill-down, transcript view with speaker labels, and transparent score explanations showing matched snippets</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Technology & Timeline -->
+    <div class="slide slide-content">
+        <div class="container">
+            <h2>Technology Stack & 3-Week Timeline</h2>
+            <p class="tagline">Production-ready delivery with enterprise-grade components</p>
+            <div class="tech-stack" style="margin-bottom: 3rem;">
+                <div class="tech-item">
+                    <div class="tech-category">Frontend</div>
+                    <div class="tech-list">Next.js, TailwindCSS, shadcn/ui</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Backend</div>
+                    <div class="tech-list">FastAPI, Python, Celery/RQ</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Database</div>
+                    <div class="tech-list">MongoDB (flexible schema)</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Speech AI</div>
+                    <div class="tech-list">Google/OpenAI STT with Diarization</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">NLP</div>
+                    <div class="tech-list">SBERT (semantic matching)</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-category">Deployment</div>
+                    <div class="tech-list">Docker, AWS/GCP, CI/CD</div>
+                </div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 1: Setup, Scope Lock & Core Foundation</div>
+                    <div class="timeline-text">Kickoff, architecture confirmation, FastAPI backend setup, MongoDB schema design, call ingestion via API/webhook, orchestration layer, Next.js dashboard initialization</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 2: Transcription, NLP & Compliance Scoring</div>
+                    <div class="timeline-text">STT integration with speaker diarization, transcript structuring, mandatory line checker, script adherence scoring, objection detection and evaluation, data persistence in MongoDB</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-week">Week 3: Reporting, Testing & Deployment</div>
+                    <div class="timeline-text">Dashboard completion with filtering and drill-down, end-to-end testing including edge cases, performance and reliability checks, Docker deployment with CI/CD, final demo and handover</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Call to Action -->
+    <div class="slide slide-conclusion">
+        <div class="container">
+            <img src="./PGAGI_LOGO.png" alt="PG-AGI Logo" class="logo">
+            <h2>Transform Call Quality Assurance With AI</h2>
+            <p class="cta-text">Automate 100% of calls with objective, explainable script compliance scoring</p>
+            <div class="cta-buttons">
+                <a href="https://pgagi.in/" class="btn btn-primary">Schedule Demo</a>
+                <a href="https://docs.google.com/document/d/172aun5PhaqghSoc_7tVRtHzvqdc0v4CY29c8Z7WqbHM/edit?usp=sharing" class="btn btn-secondary">View Technical Proposal</a>
+            </div>
+            <div class="checkmarks">
+                <div class="checkmark">✓ 100% Call Coverage</div>
+                <div class="checkmark">✓ Objective Scoring</div>
+                <div class="checkmark">✓ 3-Week Delivery</div>
+                <div class="checkmark">✓ Fully Explainable</div>
+            </div>
+            <div class="company-info">
+                <p style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Powered by PG-AGI</p>
+                <p>50+ AI Specialists | Trusted by Leading Enterprises</p>
+                <p style="margin-top: 1rem;">contact@pgagi.com | pgagi.in</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
